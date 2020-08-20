@@ -27,10 +27,13 @@ BuildRequires:	pkgconfig(xkbcommon)
 BuildRequires:	pkgconfig(udev)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gio-2.0)
+BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	doxygen
 BuildRequires:	graphviz
 BuildRequires:	cmake
 BuildRequires:	ninja
+# For QWaylandShellIntegrationFactoryInterface_iid
+BuildRequires:	qt5-qtwayland-private-devel
 # For compatibility with some other distros
 Provides:	%{name}-framework = %{EVRD}
 
