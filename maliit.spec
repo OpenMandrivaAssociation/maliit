@@ -20,6 +20,7 @@ BuildRequires:	cmake(Qt5Test)
 BuildRequires:	cmake(Qt5Widgets)
 BuildRequires:	cmake(Qt5WaylandClient)
 BuildRequires:	cmake(Qt5XkbCommonSupport)
+BuildRequires:	qt5-qtwayland
 BuildRequires:	pkgconfig(wayland-protocols)
 BuildRequires:	pkgconfig(wayland-scanner)
 BuildRequires:	pkgconfig(xkbcommon)
