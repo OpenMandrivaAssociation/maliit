@@ -1,0 +1,133 @@
+From f8aa18a22070143cd73429d17105ed775653d2eb Mon Sep 17 00:00:00 2001
+From: Marius Gripsgard <marius@ubports.com>
+Date: Tue, 29 Sep 2020 20:42:44 +0200
+Subject: [PATCH] Fix pkgconfig and prf
+
+This fixes pkgconfig and prf so they get configured correctly with
+cmake. Without this none is able to use the outputted files as they
+point to non existing places.
+---
+ common/maliit-framework.pc.in  | 6 +++---
+ common/maliit-framework.prf.in | 2 +-
+ maliit-glib/maliit-glib.pc.in  | 6 +++---
+ src/maliit-defines.prf.in      | 6 +++---
+ src/maliit-plugins.pc.in       | 8 ++++----
+ src/maliit-plugins.prf.in      | 4 ++--
+ src/maliit-server.pc.in        | 9 ++++-----
+ 7 files changed, 20 insertions(+), 21 deletions(-)
+
+diff --git a/common/maliit-framework.pc.in b/common/maliit-framework.pc.in
+index f52798b3..78fdbdb7 100644
+--- a/common/maliit-framework.pc.in
++++ b/common/maliit-framework.pc.in
+@@ -1,9 +1,9 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@LIB_INSTALL_DIR@
+-includedir=@INCLUDE_INSTALL_DIR@
++libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+ 
+ Name: Maliit Framework
+ Description: Maliit provides a flexible and cross platform input method framework. It is usable on all MeeGo user experiences, and in other GNU/Linux distributions as well.
+ Version: @PROJECT_VERSION@
+-Cflags: -I${includedir}/maliit/framework
++Cflags: -I${includedir}/maliit-2
+diff --git a/common/maliit-framework.prf.in b/common/maliit-framework.prf.in
+index bf7afdf3..d9d65eef 100644
+--- a/common/maliit-framework.prf.in
++++ b/common/maliit-framework.prf.in
+@@ -1,2 +1,2 @@
+ DEFINES *= @MALIIT_FRAMEWORK_FEATURE@
+-INCLUDEPATH *= @INCLUDE_INSTALL_DIR@/maliit/framework
++INCLUDEPATH *= @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@/maliit-2
+diff --git a/maliit-glib/maliit-glib.pc.in b/maliit-glib/maliit-glib.pc.in
+index 11019db9..288638be 100644
+--- a/maliit-glib/maliit-glib.pc.in
++++ b/maliit-glib/maliit-glib.pc.in
+@@ -1,11 +1,11 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@LIB_INSTALL_DIR@
+-includedir=@INCLUDE_INSTALL_DIR@
++libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+ 
+ Name: Maliit-GLib
+ Description: Maliit provides a flexible and cross platform input method framework. It is usable on all MeeGo user experiences, and in other GNU/Linux distributions as well.
+ Version: @PROJECT_VERSION@
+ Requires: gobject-2.0 gio-2.0
+-Cflags: -I${includedir}/maliit
++Cflags: -I${includedir}/maliit-2
+ Libs: -L${libdir} -lmaliit-glib
+diff --git a/src/maliit-defines.prf.in b/src/maliit-defines.prf.in
+index a5134162..07471544 100644
+--- a/src/maliit-defines.prf.in
++++ b/src/maliit-defines.prf.in
+@@ -2,6 +2,6 @@
+ # It is made separated, so one can load it eagerly with load() function
+ # without risk to affect building part.
+ MALIIT_PREFIX=@CMAKE_INSTALL_PREFIX@
+-MALIIT_PLUGINS_DIR = @LIB_INSTALL_DIR@/maliit/plugins
+-MALIIT_PLUGINS_DATA_DIR = @SHARE_INSTALL_PREFIX@/maliit/plugins
+-MALIIT_INSTALL_LIBS = @LIB_INSTALL_DIR@
++MALIIT_PLUGINS_DIR = @CMAKE_INSTALL_LIBDIR@/maliit/plugins
++MALIIT_PLUGINS_DATA_DIR = @CMAKE_INSTALL_DATADIR@/maliit/plugins
++MALIIT_INSTALL_LIBS = @CMAKE_INSTALL_LIBDIR@
+diff --git a/src/maliit-plugins.pc.in b/src/maliit-plugins.pc.in
+index 46fdf9c5..88e5e205 100644
+--- a/src/maliit-plugins.pc.in
++++ b/src/maliit-plugins.pc.in
+@@ -1,8 +1,8 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@LIB_INSTALL_DIR@
+-includedir=@INCLUDE_INSTALL_DIR@
+-datarootdir=@SHARE_INSTALL_PREFIX@
++libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
++datarootdir=${prefix}/@CMAKE_INSTALL_DATADIR@
+ 
+ pluginsdir=${libdir}/maliit/plugins
+ datadir=${datarootdir}
+@@ -12,5 +12,5 @@ Name: Maliit Plugins
+ Description: Maliit provides a flexible and cross platform input method framework. It is usable on all MeeGo user experiences, and in other GNU/Linux distributions as well.
+ Version: @PROJECT_VERSION@
+ Requires: maliit-framework
+-Cflags: -I${includedir}/maliit/plugins
++Cflags: -I${includedir}/maliit-2
+ Libs: -L${libdir} -lmaliit-plugins
+diff --git a/src/maliit-plugins.prf.in b/src/maliit-plugins.prf.in
+index 415c358a..6df3f0b3 100644
+--- a/src/maliit-plugins.prf.in
++++ b/src/maliit-plugins.prf.in
+@@ -1,3 +1,3 @@
+-LIBS *= -L@LIB_INSTALL_DIR@ -lmaliit-plugins
+-INCLUDEPATH *= @INCLUDE_INSTALL_DIR@/maliit/plugins
++LIBS *= -L@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@ -lmaliit-plugins
++INCLUDEPATH *= @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@/maliit-2
+ CONFIG *= maliit-framework
+diff --git a/src/maliit-server.pc.in b/src/maliit-server.pc.in
+index 866078c1..0983e92c 100644
+--- a/src/maliit-server.pc.in
++++ b/src/maliit-server.pc.in
+@@ -1,8 +1,8 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@LIB_INSTALL_DIR@
+-includedir=@INCLUDE_INSTALL_DIR@
+-datarootdir=@SHARE_INSTALL_PREFIX@
++libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
++datarootdir=${prefix}/@CMAKE_INSTALL_DATADIR@
+ 
+ pluginsdir=${libdir}/maliit/plugins
+ datadir=${datarootdir}
+@@ -12,6 +12,5 @@ Name: Maliit Server
+ Description: Library for embedding the Maliit IM Server
+ Version: @PROJECT_VERSION@
+ Requires: maliit-framework maliit-plugins
+-Cflags: -I${includedir}/maliit/server
++Cflags: -I${includedir}/maliit-2
+ Libs: -L${libdir}
+-
