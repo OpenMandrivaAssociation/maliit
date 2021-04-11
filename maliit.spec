@@ -1,4 +1,4 @@
-%define major 0
+%define major 2
 
 %define libglib %mklibname maliit-glib %{major}
 %define libplugins %mklibname maliit-plugins %{major}
@@ -6,11 +6,10 @@
 
 Summary:	Input method framework for mobile and embedded text input
 Name:		maliit
-Version:	0.99.2
-Release:	2
+Version:	2.0.0
+Release:	1
 Source0:	https://github.com/maliit/framework/archive/%{version}.tar.gz
 Patch0:		maliit-0.99.2-workaround-test-build-failure.patch
-Patch1:		https://github.com/maliit/framework/commit/f8aa18a22070143cd73429d17105ed775653d2eb.patch
 Group:		User Interface/Desktops
 License:	LGPLv2
 BuildRequires:	cmake(ECM)
