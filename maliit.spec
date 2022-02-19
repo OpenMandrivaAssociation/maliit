@@ -70,7 +70,7 @@ Development files for the maliit input framework
 
 %files
 %doc %{_docdir}/maliit-framework
-%{_bindir}/maliit-exampleapp-plainqt
+#{_bindir}/maliit-exampleapp-plainqt
 %{_bindir}/maliit-server
 %{_libdir}/qt5/plugins/platforminputcontexts/libmaliitplatforminputcontextplugin.so
 %{_libdir}/qt5/plugins/wayland-shell-integration/libinputpanel-shell.so
