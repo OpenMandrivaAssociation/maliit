@@ -6,7 +6,7 @@
 
 Summary:	Input method framework for mobile and embedded text input
 Name:		maliit
-Version:	2.0.0
+Version:	2.2.0
 Release:	1
 Source0:	https://github.com/maliit/framework/archive/%{version}.tar.gz
 Patch0:		maliit-0.99.2-workaround-test-build-failure.patch
@@ -70,7 +70,7 @@ Development files for the maliit input framework
 
 %files
 %doc %{_docdir}/maliit-framework
-%{_bindir}/maliit-exampleapp-plainqt
+#{_bindir}/maliit-exampleapp-plainqt
 %{_bindir}/maliit-server
 %{_libdir}/qt5/plugins/platforminputcontexts/libmaliitplatforminputcontextplugin.so
 %{_libdir}/qt5/plugins/wayland-shell-integration/libinputpanel-shell.so
