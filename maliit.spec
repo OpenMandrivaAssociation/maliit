@@ -7,7 +7,7 @@
 Summary:	Input method framework for mobile and embedded text input
 Name:		maliit
 Version:	2.3.0
-Release:	3
+Release:	4
 Source0:	https://github.com/maliit/framework/archive/%{version}.tar.gz
 Patch0:		maliit-0.99.2-workaround-test-build-failure.patch
 Group:		User Interface/Desktops
